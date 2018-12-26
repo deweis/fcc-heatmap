@@ -34,22 +34,20 @@ function updateChart(data) {
     temperature: (8.66 + x.variance).toFixed(1)
   }));
 
-  console.log(dataset);
-
   const w = 900;
   const h = 450;
 
   /* Padding between the SVG canvas boundary and the plot */
-  const padding = 55;
+  const padding = 80;
 
   /* Create an x and y scale */
-  const minX = d3.min(dataset, d => d[0]);
-  const maxX = d3.max(dataset, d => d[0]);
+  const minX = d3.min(dataset, d => d.year);
+  const maxX = d3.max(dataset, d => d.year);
 
   const xScale = d3
     .scaleLinear()
     .domain([minX, maxX])
-    .range([0, w - 1.5 * padding]);
+    .range([0, w - 1.5 * padding]); // [left, right]
 
   /* Add the SVG */
   const svg = d3
@@ -57,12 +55,15 @@ function updateChart(data) {
     .append('svg')
     .attr('id', 'chart')
     .attr('width', w)
-    .attr('height', h)
-    .style('fill', '#757575') // grey darken-1
-    /*
-    Make it responsive
-      Thank you: https://stackoverflow.com/a/9539361 resp. http://jsfiddle.net/shawnbot/BJLe6/
-  */
-    .attr('viewBox', `0 0 ${w} ${h}`)
-    .attr('preserveAspectRatio', 'xMidYMid');
+    .attr('height', h);
+
+  /* Add the axes */
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('')); // format years as string
+
+  svg
+    .append('g')
+    .attr('id', 'x-axis')
+    .attr('class', 'axis')
+    .attr('transform', `translate(${padding}, ${h - padding})`) // position the axis on the SVG canvas in the right place.
+    .call(xAxis);
 }

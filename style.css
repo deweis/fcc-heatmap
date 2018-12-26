@@ -14,3 +14,11 @@ h3 {
 svg {
   background: #fffde7; /* yellow lighten-5 */
 }
+
+.axis {
+  color: #757575; /* grey darken-1 */
+}
+
+.axis-description {
+  font-size: 0.8em;
+}
