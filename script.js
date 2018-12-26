@@ -43,11 +43,18 @@ function updateChart(data) {
   /* Create an x and y scale */
   const minX = d3.min(dataset, d => d.year);
   const maxX = d3.max(dataset, d => d.year);
+  const minY = d3.min(dataset, d => d.month);
+  const maxY = d3.max(dataset, d => d.month);
 
   const xScale = d3
     .scaleLinear()
     .domain([minX, maxX])
     .range([0, w - 1.5 * padding]); // [left, right]
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([maxY, minY])
+    .range([h - padding, padding]);
 
   /* Add the SVG */
   const svg = d3
@@ -59,6 +66,7 @@ function updateChart(data) {
 
   /* Add the axes */
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('')); // format years as string
+  const yAxis = d3.axisLeft(yScale);
 
   svg
     .append('g')
@@ -66,4 +74,11 @@ function updateChart(data) {
     .attr('class', 'axis')
     .attr('transform', `translate(${padding}, ${h - padding})`) // position the axis on the SVG canvas in the right place.
     .call(xAxis);
+
+  svg
+    .append('g')
+    .attr('id', 'y-axis')
+    .attr('class', 'axis')
+    .attr('transform', `translate(${padding}, 0)`)
+    .call(yAxis);
 }
