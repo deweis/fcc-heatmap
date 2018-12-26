@@ -10,3 +10,7 @@ h1 {
 h3 {
   color: #9e9e9e; /* grey */
 }
+
+svg {
+  background: #fffde7; /* yellow lighten-5 */
+}
