@@ -1,3 +1,7 @@
+/*
+ -> Example: https://codepen.io/ttstauss/pen/MqQQWO?editors=0010
+*/
+
 /********** Fetch the data to be visualized **********/
 fetch(
   'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json'
@@ -26,16 +30,41 @@ function updateChart(data) {
     'December'
   ];
 
+  const baseValue = 8.66;
+
   const dataset = data.monthlyVariance.map(x => ({
     year: x.year,
     month: x.month,
     monthName: months[x.month - 1],
     variance: x.variance.toFixed(1),
-    temperature: (8.66 + x.variance).toFixed(1)
+    temperature: (baseValue + x.variance).toFixed(1)
   }));
 
   const w = 900;
   const h = 450;
+
+  /* Setup the coloring */
+  const colors = [
+    '#313695',
+    '#4575b4',
+    '#74add1',
+    '#abd9e9',
+    '#e0f3f8',
+    '#ffffbf',
+    '#fee090',
+    '#fdae61',
+    '#f46d43',
+    '#d73027',
+    '#a50026'
+  ];
+
+  const minVariance = d3.min(dataset, d => Number(d.variance));
+  const maxVariance = d3.max(dataset, d => Number(d.variance));
+
+  const colorScale = d3
+    .scaleQuantize()
+    .domain([minVariance, maxVariance])
+    .range(colors);
 
   /* Padding between the SVG canvas boundary and the plot */
   const padding = 80;
@@ -81,4 +110,20 @@ function updateChart(data) {
     .attr('class', 'axis')
     .attr('transform', `translate(${padding}, 0)`)
     .call(yAxis);
+
+  // set up heat map cells
+  svg
+    .selectAll('rect')
+    .data(dataset)
+    .enter()
+    .append('rect')
+    .attr('x', d => xScale(d.year) + padding + 1)
+    .attr('y', d => yScale(d.month - 1)) //(d.month - 1) * (h / 12))
+    .attr('width', 2) //w / maxX - minX)
+    .attr('height', (h - padding) / 12 - 5)
+    .attr('data-month', d => d.month - 1)
+    .attr('data-year', d => d.year)
+    .attr('data-temp', d => Number(d.temperature))
+    .attr('class', 'cell')
+    .style('fill', d => colorScale(Number(d.variance)));
 }
