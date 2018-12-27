@@ -108,7 +108,7 @@ function updateChart(data) {
     .append('g')
     .attr('id', 'y-axis')
     .attr('class', 'axis')
-    .attr('transform', `translate(${padding}, 0)`)
+    .attr('transform', `translate(${padding}, -14)`)
     .call(yAxis);
 
   // set up heat map cells
