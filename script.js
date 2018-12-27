@@ -2,6 +2,12 @@
  -> Example: https://codepen.io/ttstauss/pen/MqQQWO?editors=0010
 */
 
+/*
+- add paddingRight, -Left, -Bottom, -Top
+- add Tooltip
+
+*/
+
 /********** Fetch the data to be visualized **********/
 fetch(
   'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json'
@@ -126,4 +132,20 @@ function updateChart(data) {
     .attr('data-temp', d => Number(d.temperature))
     .attr('class', 'cell')
     .style('fill', d => colorScale(Number(d.variance)));
+
+  // Add the legend using the d3-legend package
+  svg
+    .append('g')
+    .attr('class', 'legend')
+    .attr('id', 'legend')
+    .attr('transform', `translate(${padding + 16}, ${h - padding + 43})`);
+
+  const legendLinear = d3
+    .legendColor()
+    .shape('rect')
+    .shapeWidth(66)
+    .orient('horizontal')
+    .scale(colorScale);
+
+  svg.select('.legend').call(legendLinear);
 }
