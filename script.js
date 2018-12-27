@@ -95,7 +95,7 @@ function updateChart(data) {
 
   /* Add the axes */
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('')); // format years as string
-  const yAxis = d3.axisLeft(yScale);
+  const yAxis = d3.axisLeft(yScale).tickFormat((d, i) => `${months[d - 1]}`); // use month names for the y-axis;
 
   svg
     .append('g')
