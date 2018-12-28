@@ -3,7 +3,8 @@
 */
 
 /*
-- add paddingRight, -Left, -Bottom, -Top
+- animate?
+- responsive?
 
 */
 
@@ -51,13 +52,13 @@ function updateChart(data) {
 
   // SVG Sizing
   const w = 900;
-  const h = 450;
+  const h = 500;
 
   /* To Place the chart within the SVG */
-  const marginTop = 80;
-  const marginRight = 120;
-  const marginBottom = 80;
-  const marginLeft = 80;
+  const marginTop = h / 6;
+  const marginRight = w / 7;
+  const marginBottom = h / 6;
+  const marginLeft = w / 15;
   const cellWidth = (w - marginRight - marginLeft) / uniqueYears.length;
 
   /* Setup the coloring */
@@ -183,7 +184,7 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .attr('id', 'legend')
     .attr(
       'transform',
-      `translate(${1.2 * marginLeft}, ${h - 0.5 * marginBottom})`
+      `translate(${1.15 * marginLeft}, ${h - 0.5 * marginBottom})`
     );
 
   const legendLinear = d3
