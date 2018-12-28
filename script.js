@@ -45,8 +45,20 @@ function updateChart(data) {
     temperature: (baseValue + x.variance).toFixed(1)
   }));
 
+  // get the unique years in the dataset to calculate the cell width
+  const years = dataset.map(x => x.year);
+  const uniqueYears = [...new Set(years)];
+
+  // SVG Sizing
   const w = 900;
   const h = 450;
+
+  /* To Place the chart within the SVG */
+  const marginTop = 80;
+  const marginRight = 120;
+  const marginBottom = 80;
+  const marginLeft = 80;
+  const cellWidth = (w - marginRight - marginLeft) / uniqueYears.length;
 
   /* Setup the coloring */
   const colors = [
@@ -71,9 +83,6 @@ function updateChart(data) {
     .domain([minVariance, maxVariance])
     .range(colors);
 
-  /* Padding between the SVG canvas boundary and the plot */
-  const padding = 80;
-
   /* Create an x and y scale */
   const minX = d3.min(dataset, d => d.year);
   const maxX = d3.max(dataset, d => d.year);
@@ -83,12 +92,12 @@ function updateChart(data) {
   const xScale = d3
     .scaleLinear()
     .domain([minX, maxX])
-    .range([0, w - 1.5 * padding]); // [left, right]
+    .range([0, w - marginRight]);
 
   const yScale = d3
     .scaleLinear()
     .domain([maxY, minY])
-    .range([h - padding, padding]);
+    .range([h - marginBottom, marginTop]);
 
   /* Add the SVG */
   const svg = d3
@@ -106,14 +115,14 @@ function updateChart(data) {
     .append('g')
     .attr('id', 'x-axis')
     .attr('class', 'axis')
-    .attr('transform', `translate(${padding}, ${h - padding})`) // position the axis on the SVG canvas in the right place.
+    .attr('transform', `translate(${marginLeft}, ${h - marginBottom})`) // position the axis on the SVG canvas in the right place.
     .call(xAxis);
 
   svg
     .append('g')
     .attr('id', 'y-axis')
     .attr('class', 'axis')
-    .attr('transform', `translate(${padding}, -14)`)
+    .attr('transform', `translate(${marginLeft}, -14)`)
     .call(yAxis);
 
   /* Define the div for the tooltip 
@@ -131,10 +140,10 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .data(dataset)
     .enter()
     .append('rect')
-    .attr('x', d => xScale(d.year) + padding + 1)
+    .attr('x', d => xScale(d.year) + marginLeft + 1)
     .attr('y', d => yScale(d.month - 1)) //(d.month - 1) * (h / 12))
-    .attr('width', 2) //w / maxX - minX)
-    .attr('height', (h - padding) / 12 - 5)
+    .attr('width', cellWidth) //w / maxX - minX)
+    .attr('height', (h - 1.7 * marginBottom) / 12)
     .attr('data-month', d => d.month - 1)
     .attr('data-year', d => d.year)
     .attr('data-temp', d => Number(d.temperature))
@@ -172,7 +181,10 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .append('g')
     .attr('class', 'legend')
     .attr('id', 'legend')
-    .attr('transform', `translate(${padding + 16}, ${h - padding + 43})`);
+    .attr(
+      'transform',
+      `translate(${1.2 * marginLeft}, ${h - 0.5 * marginBottom})`
+    );
 
   const legendLinear = d3
     .legendColor()
