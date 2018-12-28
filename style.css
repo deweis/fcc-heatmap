@@ -11,9 +11,9 @@ h3 {
   color: #9e9e9e; /* grey */
 }
 
-svg {
-  background: #fafafa; /*  grey lighten-5 */
-}
+/*svg {
+  background: #fafafa;  grey lighten-5 
+} */
 
 .axis {
   color: #757575; /* grey darken-1 */
@@ -21,6 +21,18 @@ svg {
 
 .axis-description {
   font-size: 0.8em;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  background: #a1887f; /* brown lighten-2 */
+  color: white;
+  line-height: 1.5em;
+  padding: 12px;
+  font-size: 0.8em;
+  border-radius: 8px;
+  pointer-events: none;
 }
 
 .legend {

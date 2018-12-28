@@ -4,7 +4,6 @@
 
 /*
 - add paddingRight, -Left, -Bottom, -Top
-- add Tooltip
 
 */
 
@@ -117,6 +116,15 @@ function updateChart(data) {
     .attr('transform', `translate(${padding}, -14)`)
     .call(yAxis);
 
+  /* Define the div for the tooltip 
+Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
+  const divTooltip = d3
+    .select('body')
+    .append('div')
+    .attr('class', 'tooltip')
+    .attr('id', 'tooltip')
+    .style('opacity', 0);
+
   // set up heat map cells
   svg
     .selectAll('rect')
@@ -131,7 +139,33 @@ function updateChart(data) {
     .attr('data-year', d => d.year)
     .attr('data-temp', d => Number(d.temperature))
     .attr('class', 'cell')
-    .style('fill', d => colorScale(Number(d.variance)));
+    .style('fill', d => colorScale(Number(d.variance)))
+    .on('mouseover', d => {
+      // Show the tooltip when hovering
+      divTooltip
+        .transition()
+        .duration(200)
+        .style('opacity', 0.9)
+        .attr('data-year', d.year);
+
+      divTooltip
+        .html(
+          `
+          ${d.monthName} ${d.year}<br>
+          Temperature: ${d.temperature} ℃<br>
+          Variance: ${d.variance} ℃
+          `
+        )
+        .style('left', d3.event.pageX + 5 + 'px')
+        .style('top', d3.event.pageY - 5 + 'px');
+    })
+    .on('mouseout', d => {
+      /* Hide the tooltip when hovering out */
+      divTooltip
+        .transition()
+        .duration(500)
+        .style('opacity', 0);
+    });
 
   // Add the legend using the d3-legend package
   svg
