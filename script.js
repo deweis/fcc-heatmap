@@ -142,7 +142,7 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .enter()
     .append('rect')
     /* Add the animation 
-       thank you: https://codepen.io/HIC/full/JaaEOa/*/
+    thank you: https://codepen.io/HIC/full/JaaEOa/*/
     .transition()
     .duration(0)
     .delay((d, i) => i * 2)
@@ -154,7 +154,10 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .attr('data-year', d => d.year)
     .attr('data-temp', d => Number(d.temperature))
     .attr('class', 'cell chart-cell')
-    .style('fill', d => colorScale(Number(d.variance)))
+    .style('fill', d => colorScale(Number(d.variance)));
+
+  svg
+    .selectAll('rect')
     .on('mouseover', d => {
       // Show the tooltip when hovering
       divTooltip
