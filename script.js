@@ -2,12 +2,6 @@
  -> Example: https://codepen.io/ttstauss/pen/MqQQWO?editors=0010
 */
 
-/*
-- animate?
-- responsive?
-
-*/
-
 /********** Fetch the data to be visualized **********/
 fetch(
   'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json'
@@ -153,8 +147,8 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .duration(0)
     .delay((d, i) => i * 2)
     .attr('x', d => xScale(d.year) + marginLeft + 1)
-    .attr('y', d => yScale(d.month - 1)) //(d.month - 1) * (h / 12))
-    .attr('width', cellWidth) //w / maxX - minX)
+    .attr('y', d => yScale(d.month - 1))
+    .attr('width', cellWidth)
     .attr('height', (h - 1.7 * marginBottom) / 12)
     .attr('data-month', d => d.month - 1)
     .attr('data-year', d => d.year)
