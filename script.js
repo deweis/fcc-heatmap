@@ -106,7 +106,13 @@ function updateChart(data) {
     .append('svg')
     .attr('id', 'chart')
     .attr('width', w)
-    .attr('height', h);
+    .attr('height', h)
+    /*
+    Make it responsive
+      Thank you: https://stackoverflow.com/a/9539361 resp. http://jsfiddle.net/shawnbot/BJLe6/
+    */
+    .attr('viewBox', `0 0 ${w} ${h}`)
+    .attr('preserveAspectRatio', 'xMidYMid');
 
   /* Add the axes */
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('')); // format years as string
@@ -204,3 +210,27 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
 
   svg.select('.legend').call(legendLinear);
 }
+
+/*
+  Make it responsive
+    Thank you: https://stackoverflow.com/a/9539361 resp. http://jsfiddle.net/shawnbot/BJLe6/
+*/
+$(function() {
+  const chart = $('#chart'),
+    aspect = chart.width() / chart.height(),
+    container = $('#chartContainer');
+
+  /* Set inital widgth/height based on browser width */
+  let targetWidth = container.width() > 900 ? 900 : container.width();
+  chart.attr('width', targetWidth);
+  chart.attr('height', Math.round(targetWidth / aspect));
+
+  /* Adjust size if window is being resized */
+  $(window)
+    .on('resize', function() {
+      targetWidth = container.width() > 900 ? 900 : container.width();
+      chart.attr('width', targetWidth);
+      chart.attr('height', Math.round(targetWidth / aspect));
+    })
+    .trigger('resize');
+});
