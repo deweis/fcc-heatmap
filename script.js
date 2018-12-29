@@ -141,6 +141,11 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .data(dataset)
     .enter()
     .append('rect')
+    /* Add the animation 
+       thank you: https://codepen.io/HIC/full/JaaEOa/*/
+    .transition()
+    .duration(0)
+    .delay((d, i) => i * 2)
     .attr('x', d => xScale(d.year) + marginLeft + 1)
     .attr('y', d => yScale(d.month - 1)) //(d.month - 1) * (h / 12))
     .attr('width', cellWidth) //w / maxX - minX)
