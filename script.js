@@ -148,7 +148,7 @@ Thank you: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369  */
     .attr('data-month', d => d.month - 1)
     .attr('data-year', d => d.year)
     .attr('data-temp', d => Number(d.temperature))
-    .attr('class', 'cell')
+    .attr('class', 'cell chart-cell')
     .style('fill', d => colorScale(Number(d.variance)))
     .on('mouseover', d => {
       // Show the tooltip when hovering

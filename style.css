@@ -31,7 +31,7 @@ h3 {
   pointer-events: none;
 }
 
-.cell:hover {
+.chart-cell:hover {
   stroke: #a1887f !important; /* brown lighten-2 */
   stroke-width: 1px !important;
   fill: #a1887f !important; /* brown lighten-2 */
